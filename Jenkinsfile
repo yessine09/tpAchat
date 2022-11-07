@@ -8,7 +8,14 @@ pipeline {
                
             }
         }
-                
+              
+           stage("Maven Test") {
+            steps {
+                script {
+                    sh "mvn -version"
+                }
+            }
+        }
         stage("Maven Clean") {
             steps {
                 script {
