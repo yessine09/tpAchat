@@ -23,13 +23,7 @@ pipeline {
                 }
             }
         }
-        stage("Maven test") {
-            steps {
-                script {
-                    sh "mvn -f'spring/pom.xml' test"
-                }
-            }
-        }
+       
         stage("Maven Sonarqube") {
             steps {
                 script {
