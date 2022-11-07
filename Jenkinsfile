@@ -1,16 +1,45 @@
-pipeline {
+pipeline{
     agent any
    
-    parameters { 
-        string(defaultValue: "https://github.com/yessine/tpAchat.git", description: 'Whats the github URL?', name: 'URL')
-    }
-   
-    
-    stages {
-        stage('Checkout Git repository') {
-           steps {
-                git branch: 'main', url: "${params.URL}"
+   stages {
+        
+        stage("Maven Clean") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true"
+                }
             }
         }
-    }
+        stage("Maven Compile") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true"
+                }
+            }
+        }
+        stage("Maven test") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' test"
+                }
+            }
+        }
+        stage("Maven Sonarqube") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin"
+                }
+            }
+        }
+        stage("Maven Build") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' package -DskipTests=false"
+                }
+                echo ":$BUILD_NUMBER"
+            }
+        }
+
+   }
+
 }
