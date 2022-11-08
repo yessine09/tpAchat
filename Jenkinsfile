@@ -11,7 +11,7 @@ pipeline {
                     url : 'https://github.com/yessine09/tpAchat.git';
                              }
                              }
-                             }
+
             stage("Build"){
                    steps {
                               sh 'mvn clean package'
@@ -24,5 +24,7 @@ pipeline {
 
 
 
-                    }      }
+
+
+               }      }
         }
