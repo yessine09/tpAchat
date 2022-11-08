@@ -78,6 +78,7 @@
 				<version>3.1.0</version>
 			</plugin>
 		</plugins>
+		<finalName>DevopsProject</finalName>
 	</build>
 
 </project>
