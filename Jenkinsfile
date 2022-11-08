@@ -1,12 +1,14 @@
 pipeline {
     agent any
+    
      environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "192.168.1.148:8081"
-        NEXUS_REPOSITORY = "maven-releases"
-        NEXUS_CREDENTIAL_ID = "Nexus-Creds"
+        NEXUS_URL = "you-192.168.1.148:8081"
+        NEXUS_REPOSITORY = "maven-nexus-repo"
+        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
     }
+    
     stages {
         stage('Git') {
             steps {
@@ -53,11 +55,11 @@ pipeline {
                 echo ":$BUILD_NUMBER"
             }
         }
-       stage("Publish to Nexus Repository Manager") {
+     stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
-                    pom = readMavenPom file: "spring/pom.xml";
-                    filesByGlob = findFiles(glob: "spring/target/*.${pom.packaging}");
+                    pom = readMavenPom file: "pom.xml";
+                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     artifactPath = filesByGlob[0].path;
                     artifactExists = fileExists artifactPath;
@@ -78,7 +80,7 @@ pipeline {
                                 type: pom.packaging],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
-                                file: "spring/pom.xml",
+                                file: "pom.xml",
                                 type: "pom"]
                             ]
                         );
