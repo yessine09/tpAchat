@@ -28,12 +28,7 @@ environment
 
                                   }
 }
-stage("nexus deploy"){
-                        steps {
-                           sh 'mvn deploy'
 
-                              }
-                 }
   stage('Building our image') {
                   steps {
                         script {
@@ -59,6 +54,12 @@ stage("nexus deploy"){
                                           }
 
                      }
+                     stage("nexus deploy"){
+                                             steps {
+                                                sh 'mvn deploy'
+
+                                                   }
+                                      }
 
 
 
