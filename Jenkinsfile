@@ -9,7 +9,7 @@ pipeline {
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "192.168.1.148:8081"
         NEXUS_REPOSITORY = "maven-nexus-repo"
-        NEXUS_CREDENTIAL_ID = "9d787a1f-414f-4422-a3df-fa803fac817c"
+        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
     }
     
     stages {
