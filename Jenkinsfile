@@ -1,12 +1,15 @@
 pipeline {
     agent any
+     tools{
+    	maven "M2_HOME"
+    }
     
      environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "you-192.168.1.148:8081"
+        NEXUS_URL = "192.168.1.148:8081"
         NEXUS_REPOSITORY = "maven-nexus-repo"
-        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
+        NEXUS_CREDENTIAL_ID = "9d787a1f-414f-4422-a3df-fa803fac817c"
     }
     
     stages {
