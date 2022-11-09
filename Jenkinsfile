@@ -62,7 +62,16 @@ environment
                                       }
 
 
+ stage("docker compose"){
+                                                     steps {
+                                                         sh 'mvn clean package'
+                                                        // sh 'sudo chmod 666 /var/run/docker.sock'
+                                                         sh 'docker-compose up -d --build'
 
+
+                                                     }
+
+                           }
 
 
 
