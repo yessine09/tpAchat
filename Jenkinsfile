@@ -5,6 +5,7 @@ pipeline {
     }
     
      environment {
+       
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "192.168.1.148:8081"
