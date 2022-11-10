@@ -28,6 +28,17 @@ environment
 
                                   }
 }
+stage("SONAR"){
+                                                             steps {
+                                                                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=esprit '
+
+                                                                    }
+                                                        }
+           stage("Tests JUnit / Mockito"){
+                         steps {
+                            sh 'mvn test'
+                            }
+                    }
 
   stage('Building our image') {
                   steps {
