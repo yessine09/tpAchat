@@ -1,26 +1,21 @@
 version: "3"
-services:
-  mysql-db:
-    image: mysql:8
+services: 
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
     ports:
-      - "3306:3306"
-    networks:
-      - achat-mysql-network
+      - 3306:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=achatdb
-
-  achat-container:
-    image: achat
-    build: ./
+      MYSQL_DATABASE: achatdb
+      MYSQL_ROOT_PASSWORD: 
+  springboot-app:
+    image: springboot-app
+#    restart:  always
+    build: .
     ports:
-      - "8089:8089"
-    hostname: achat
-    networks:
-      - achat-mysql-network
-    depends_on:
-      - mysql-db
-
-networks:
-  achat-mysql-network:
-    driver: bridge
+      - 8089:8089
+    environment:
+     MYSQL_HOST: mysqldb
+     MYSQL_USER: root
+     MYSQL_PASSWORD: 
+     MYSQL_PORT: 3306  
