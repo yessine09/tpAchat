@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysql-db:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    networks:
+      - achat-mysql-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=achatdb
+
+  achat-container:
+    image: achat
+    build: ./
+    ports:
+      - "8089:8089"
+    hostname: achat
+    networks:
+      - achat-mysql-network
+    depends_on:
+      - mysql-db
+
+networks:
+  achat-mysql-network:
+    driver: bridge
