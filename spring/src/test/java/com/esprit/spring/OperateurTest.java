@@ -33,6 +33,7 @@ public class OperateurTest {
 
 		@Test
 		public void insertOperateurTest() {
+			System.out.println("********************** add operateur test *******************************");
 			long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 			Operateur operateur = new Operateur(id,"boussaid", "zaineb", "Action");
 			when(logger.isInfoEnabled()).thenReturn(false);
