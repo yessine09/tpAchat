@@ -36,13 +36,13 @@ pipeline {
             }
         }
        
-//         stage("Maven Sonarqube") {
-//             steps {
-//                 script {
-//                     sh "mvn -f'spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
-//                 }
-//             }
-//         }
+        stage("Maven Sonarqube") {
+            steps {
+                script {
+                    sh "mvn -f'spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
+                }
+            }
+        }
      
 }
 }
