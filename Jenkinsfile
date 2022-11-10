@@ -48,30 +48,28 @@ pipeline {
                    
                    
                    
-                    stage("UploadArtifact"){
-            steps{
-                nexusArtifactUploader(
-                  nexusVersion: 'nexus3',
-                  protocol: 'http',
-                  nexusUrl: '192.168.33.10:8081',
-                  groupId: 'pom.groupId',
-                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                  repository: 'maven-nexus-repo',
-                  credentialsId: 'nexus-user-credentials',
-                  artifacts: [
-                       [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: artifactPath,
-                                type: pom.packaging],
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: "spring/pom.xml",
-                                type: "pom"]
-                  ]
-                )
+         stage("Upload War To Nexus"){
+	    steps{
+		script{
+                                   pom = readMavenPom file: "spring/pom.xml";
+		    nexusArtifactUploader artifacts: [
+			[
+			    artifactId: 'pom.artifactId', 
+		            classifier: '', 
+			    file: 'spring/target/*.${pom.packaging}', 
+			    type: 'war'
+			]
+			], 
+			    credentialsId: 'nexus3', 
+			    groupId: 'pom.groupId', 
+			    nexusUrl: '192.168.33.10:8081', 
+			    nexusVersion: 'nexus3', 
+			    protocol: 'http', 
+			    repository: 'maven-releases'
             }
-        }
-                          
+		}
+	}
+       
                    
                    
 
