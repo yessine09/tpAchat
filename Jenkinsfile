@@ -1,7 +1,13 @@
 pipeline{
+    
+    
     agent any
     
     environment {
+        
+          registry = "yessineak/alpine" 
+        registryCredential = 'dockerHub' 
+        
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "192.168.1.7:8081"
