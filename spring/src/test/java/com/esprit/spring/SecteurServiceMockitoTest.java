@@ -85,13 +85,13 @@ public class SecteurServiceMockitoTest {
 
 	 }
 
-	 @Test
-	 public void testdeleteSecteur() {
-		 SecteurActivite sa2 = SecteurActivite.builder().codeSecteurActivite("code12secteur").libelleSecteurActivite("sect12").build();
-		 saService.deleteSecteurActivite(sa2.getIdSecteurActivite());
-	     Mockito.verify(saRepositoryMock).deleteById(sa2.getIdSecteurActivite());
-			System.out.println("delete !");
+	// @Test
+	 //public void testdeleteSecteur() {
+	//	 SecteurActivite sa2 = SecteurActivite.builder().codeSecteurActivite("code12secteur").libelleSecteurActivite("sect12").build();
+		// saService.deleteSecteurActivite(sa2.getIdSecteurActivite());
+	     //Mockito.verify(saRepositoryMock).deleteById(sa2.getIdSecteurActivite());
+		//	System.out.println("delete !");
 
 
-	 }
+	 //}
 }
