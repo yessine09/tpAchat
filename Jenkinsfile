@@ -140,7 +140,7 @@ pipeline {
              stage('MOCKITO') {
             steps {
                sh 'echo skipMOCKITO'  
-                sh 'mvn clean test -Dtest=com.esprit.spring.SecteurServiceMockitoTest' 
+                sh 'mvn clean test' 
             }
         }
                
