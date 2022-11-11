@@ -39,11 +39,9 @@ pipeline {
                 }
             }
         }
-        stage("Maven Compile") {
+        stage('MOCKITO') {
             steps {
-                script {
-                    sh "mvn -f'spring/pom.xml' compile -DskipTests=true"
-                }
+               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=spring/com.esprit.spring.SecteurServiceMockitoTest' //
             }
         }
        
