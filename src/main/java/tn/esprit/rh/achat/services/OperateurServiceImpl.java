@@ -12,6 +12,11 @@ public class OperateurServiceImpl implements IOperateurService {
 
 	@Autowired
 	OperateurRepository operateurRepository;
+	
+	public OperateurServiceImpl(OperateurRepository operateurRepository) {
+		this.operateurRepository = operateurRepository;
+	}
+	
 	@Override
 	public List<Operateur> retrieveAllOperateurs() {
 		return (List<Operateur>) operateurRepository.findAll();

@@ -47,24 +47,31 @@ public class FactureServiceImpl implements IFactureService {
 	 * calculer les montants remise et le montant total d'un détail facture
 	 * ainsi que les montants d'une facture
 	 */
-	private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
+	public Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
 		float montantFacture = 0;
 		float montantRemise = 0;
 		for (DetailFacture detail : detailsFacture) {
 			//Récuperer le produit 
-			Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).get();
+			Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).orElse(null);
 			//Calculer le montant total pour chaque détail Facture
-			float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();
-			//Calculer le montant remise pour chaque détail Facture
-			float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;
-			float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;
-			detail.setMontantRemise(montantRemiseDetail);
-			detail.setPrixTotalDetail(prixTotalDetailRemise);
-			//Calculer le montant total pour la facture
-			montantFacture = montantFacture + prixTotalDetailRemise;
-			//Calculer le montant remise pour la facture
-			montantRemise = montantRemise + montantRemiseDetail;
-			detailFactureRepository.save(detail);
+
+			if(produit != null) {
+
+				float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();
+
+
+				//Calculer le montant remise pour chaque détail Facture
+				float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;
+				float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;
+				detail.setMontantRemise(montantRemiseDetail);
+				detail.setPrixTotalDetail(prixTotalDetailRemise);
+				//Calculer le montant total pour la facture
+				montantFacture = montantFacture + prixTotalDetailRemise;
+				//Calculer le montant remise pour la facture
+				montantRemise = montantRemise + montantRemiseDetail;
+				detailFactureRepository.save(detail);
+			}
+
 		}
 		f.setMontantFacture(montantFacture);
 		f.setMontantRemise(montantRemise);
@@ -93,15 +100,19 @@ public class FactureServiceImpl implements IFactureService {
 	@Override
 	public List<Facture> getFacturesByFournisseur(Long idFournisseur) {
 		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
-		return (List<Facture>) fournisseur.getFactures();
+
+		   assert (fournisseur!=null);
+			return (List<Facture>) fournisseur.getFactures();
 	}
 
 	@Override
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
 		Operateur operateur = operateurRepository.findById(idOperateur).orElse(null);
-		operateur.getFactures().add(facture);
-		operateurRepository.save(operateur);
+		if(operateur != null) {
+			operateur.getFactures().add(facture);
+			operateurRepository.save(operateur);
+		}
 	}
 
 	@Override

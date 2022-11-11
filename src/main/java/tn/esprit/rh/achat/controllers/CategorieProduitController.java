@@ -4,6 +4,10 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.rh.achat.entities.CategorieProduit;
+import tn.esprit.rh.achat.dto.DtoCategorieProduit;
+import tn.esprit.rh.achat.dto.DtoSecteurActivite;
+import tn.esprit.rh.achat.entities.CategorieProduit;
+import tn.esprit.rh.achat.entities.SecteurActivite;
 import tn.esprit.rh.achat.services.ICategorieProduitService;
 
 import java.util.List;
@@ -34,9 +38,9 @@ public class CategorieProduitController {
 	// http://localhost:8089/SpringMVC/categorieProduit/add-categorieProduit
 	@PostMapping("/add-categorieProduit")
 	@ResponseBody
-	public CategorieProduit addCategorieProduit(@RequestBody CategorieProduit cp) {
-		CategorieProduit categorieProduit = categorieProduitService.addCategorieProduit(cp);
-		return categorieProduit;
+	public CategorieProduit addCategorieProduit(@RequestBody DtoCategorieProduit cp) {
+		CategorieProduit categorieProduit = new CategorieProduit(cp.getCodeCategorie(),cp.getLibelleCategorie());
+		return	categorieProduitService.addCategorieProduit(categorieProduit);
 	}
 
 	// http://localhost:8089/SpringMVC/categorieProduit/remove-categorieProduit/{categorieProduit-id}
@@ -49,8 +53,11 @@ public class CategorieProduitController {
 	// http://localhost:8089/SpringMVC/categorieProduit/modify-categorieProduit
 	@PutMapping("/modify-categorieProduit")
 	@ResponseBody
-	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduit categorieProduit) {
-		return categorieProduitService.updateCategorieProduit(categorieProduit);
+
+	public CategorieProduit modifyCategorieProduit(@RequestBody DtoCategorieProduit categorieProduit) {
+		CategorieProduit categorieP = new CategorieProduit(categorieProduit.getCodeCategorie(),categorieProduit.getLibelleCategorie());
+		return categorieProduitService.updateCategorieProduit(categorieP);
+
 	}
 
 	
