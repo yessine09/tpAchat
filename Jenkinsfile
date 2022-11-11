@@ -41,11 +41,11 @@ pipeline {
                 }
             }
         }
-            stage("Test JUnit - Mockito"){
-                                steps {
-                                    sh 'mvn test'
-                                }
-        }
+//             stage("Test JUnit - Mockito"){
+//                                 steps {
+//                                     sh 'mvn test'
+//                                 }
+//         }
         stage("Maven Sonarqube") {
             steps {
                 script {
