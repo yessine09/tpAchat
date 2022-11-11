@@ -50,8 +50,8 @@ public class CategorieProduitController {
 	@PutMapping("/modify-categorieProduit")
 	@ResponseBody
 	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduit categorieProduit) {
-		return categorieProduitService.updateCategorieProduit(categorieProduit);
-	}
+		CategorieProduit categorieP = new CategorieProduit(categorieProduit.getCodeCategorie(),categorieProduit.getLibelleCategorie());
+		return categorieProduitService.updateCategorieProduit(categorieP);
 
-	
+	}	
 }
