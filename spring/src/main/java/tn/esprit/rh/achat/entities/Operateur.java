@@ -43,4 +43,9 @@ public class Operateur implements Serializable{
 		this.prenom = prenom;
 		this.password = password;
 	}
+	public Operateur(String nom, String prenom, String password) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.password = password;
+	}
 }
