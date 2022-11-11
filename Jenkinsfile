@@ -46,6 +46,11 @@ pipeline {
 //                                     sh 'mvn test'
 //                                 }
 //         }
+       stage('MOCKITO') {
+            steps {
+               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=spring/com.esprit.spring.SecteurServiceMockitoTest' //
+            }
+        }
         stage("Maven Sonarqube") {
             steps {
                 script {
