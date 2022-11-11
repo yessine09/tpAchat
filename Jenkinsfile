@@ -46,11 +46,7 @@ pipeline {
 //                                     sh 'mvn test'
 //                                 }
 //         }
-       stage('MOCKITO') {
-            steps {
-               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=spring/tr.esprit.rh.achat.stocktest' //
-            }
-        }
+     
         stage("Maven Sonarqube") {
             steps {
                 script {
@@ -64,6 +60,12 @@ pipeline {
                     sh "mvn -f'spring/pom.xml' package -DskipTests=false"
                 }
                 echo ":$BUILD_NUMBER"
+            }
+        }
+          stage('MOCKITO') {
+            steps {
+               sh 'echo skipMOCKITO'  
+                sh 'mvn clean test -Dtest=tr.esprit.rh.achat.stocktest'
             }
         }
     stage("Publish to Nexus Repository Manager") {
