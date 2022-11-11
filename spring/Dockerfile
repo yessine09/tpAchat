@@ -1,6 +1,4 @@
 FROM openjdk:8-jdk-alpine
-RUN apk --no-cache add curl
-RUN curl -u admin:nexus -o tpachat.jar "http://192.168.43.200:8081/service/rest/v1/search/assets/download?sort=version&repository=achat-devops-project&maven.groupId=tn.esprit.rh&maven.artifactId=achat&maven.baseVersion=1.0&maven.extension=jar" -L
-ADD target/achat-1.0.jar achat-1.0.jar
-ENTRYPOINT ["java","-jar","/achat-1.0.jar"]
 EXPOSE 8083
+ADD target/docker-spring-boot.war docker-spring-boot.war
+ENTRYPOINT ["java","-jar","/docker-spring-boot.war"]
