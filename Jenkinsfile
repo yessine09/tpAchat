@@ -35,14 +35,14 @@ pipeline {
         stage("Maven Clean") {
             steps {
                 script {
-                    sh "mvn -f'spring/pom.xml' clean -DskipTests=true"
+                    sh "mvn -f'pom.xml' clean -DskipTests=true"
                 }
             }
         }
         stage("Maven Compile") {
             steps {
                 script {
-                    sh "mvn -f'spring/pom.xml' compile -DskipTests=true"
+                    sh "mvn -f'pom.xml' compile -DskipTests=true"
                 }
             }
         }
@@ -50,14 +50,14 @@ pipeline {
         stage("Maven Sonarqube") {
             steps {
                 script {
-                    sh "mvn -f'spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
+                    sh "mvn -f'pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
                 }
             }
         }
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'spring/pom.xml' package -DskipTests=false"
+                    sh "mvn -f'pom.xml' package -DskipTests=false"
                 }
                 echo ":$BUILD_NUMBER"
             }
@@ -87,7 +87,7 @@ pipeline {
                                 type: pom.packaging],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
-                                file: "spring/pom.xml",
+                                file: "pom.xml",
                                 type: "pom"]
                             ]
                         );
