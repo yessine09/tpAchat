@@ -65,7 +65,7 @@ pipeline {
           stage('MOCKITO') {
             steps {
                sh 'echo skipMOCKITO'  
-                sh 'mvn clean test -Dtest=tr.esprit.rh.achat.stocktest'
+//                 sh 'mvn clean test -Dtest=tr.esprit.rh.achat.stocktest'
             }
         }
     stage("Publish to Nexus Repository Manager") {
