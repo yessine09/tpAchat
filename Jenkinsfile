@@ -34,7 +34,7 @@ pipeline{
        
        stage('MOCKITO') {
             steps {
-               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=tn.esprit.rh.achat.ProduitServiceMockTest' //
+               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=tn.esprit.rh.achat.FournisseurTest' //
             }
         }
         stage("Maven test") {
