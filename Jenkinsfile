@@ -1,28 +1,37 @@
-pipeline{
-    
-    
+pipeline {
     agent any
+     tools{
+    	maven "M2_HOME"
+    }
     
-    environment {
-        
-          
-        
+     environment {
+         registry = "zaineb12/alpine" 
+        registryCredential = 'dockerhub_id' 
+        dockerImage = '' 
+       
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "192.168.33.10/:8081"
+        NEXUS_URL = "192.168.33.10:8081"
         NEXUS_REPOSITORY = "maven-releases"
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
     }
-   
-   stages {
-	   stage('Git') {
+    
+    stages {
+        stage('Git') {
             steps {
                 // Get code from a GitHub repository
                 git url: 'https://github.com/yessine09/tpAchat.git', branch: 'jasmine'
                
             }
         }
-        
+              
+           stage("Maven Test") {
+            steps {
+                script {
+                    sh "mvn -version"
+                }
+            }
+        }
         stage("Maven Clean") {
             steps {
                 script {
@@ -37,13 +46,7 @@ pipeline{
                 }
             }
         }
-        stage("Maven test") {
-            steps {
-                script {
-                    sh "mvn -f'spring/pom.xml' test"
-                }
-            }
-        }
+       
         stage("Maven Sonarqube") {
             steps {
                 script {
@@ -59,7 +62,7 @@ pipeline{
                 echo ":$BUILD_NUMBER"
             }
         }
-       stage("Publish to Nexus Repository Manager") {
+    stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
                     pom = readMavenPom file: "spring/pom.xml";
@@ -68,7 +71,7 @@ pipeline{
                     artifactPath = filesByGlob[0].path;
                     artifactExists = fileExists artifactPath;
                     if(artifactExists) {
-                        echo "* File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
@@ -89,34 +92,16 @@ pipeline{
                             ]
                         );
                     } else {
-                        error "* File: ${artifactPath}, could not be found";
+                        error "*** File: ${artifactPath}, could not be found";
                     }
                 }
             }
         }
-//        stage('Building our image') { 
-//             steps { 
-//                 script { 
-//                     dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-//                 }
-//             } 
-//         }
-
-//         stage('Deploy our image') { 
-//             steps { 
-//                 script { 
-//                     docker.withRegistry( '', registryCredential ) { 
-//                         dockerImage.push() 
-//                     }
-//                 } 
-//             }
-//         } 
-
-//         stage('Cleaning up') { 
-//             steps { 
-//                 sh "docker rmi $registry:$BUILD_NUMBER" 
-//             }
-//         }
        
+   
+        
+      
+               
     }
+    
 }
