@@ -1,24 +1,18 @@
 package tn.esprit.rh.achat.services;
 
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition.Optional;
-
-import java.util.Date;
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.rh.achat.entities.DetailFournisseur;
 import tn.esprit.rh.achat.entities.Fournisseur;
 import tn.esprit.rh.achat.entities.SecteurActivite;
-import tn.esprit.rh.achat.entities.dto.FournisseurRequestModel;
 import tn.esprit.rh.achat.repositories.DetailFournisseurRepository;
 import tn.esprit.rh.achat.repositories.FournisseurRepository;
 import tn.esprit.rh.achat.repositories.ProduitRepository;
 import tn.esprit.rh.achat.repositories.SecteurActiviteRepository;
 
-
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -32,14 +26,10 @@ public class FournisseurServiceImpl implements IFournisseurService {
 	ProduitRepository produitRepository;
 	@Autowired
 	SecteurActiviteRepository secteurActiviteRepository;
-	
-
-
-	ModelMapper modelMapper = new ModelMapper();
 
 	@Override
 	public List<Fournisseur> retrieveAllFournisseurs() {
-		List<Fournisseur> fournisseurs =  fournisseurRepository.findAll();
+		List<Fournisseur> fournisseurs = (List<Fournisseur>) fournisseurRepository.findAll();
 		for (Fournisseur fournisseur : fournisseurs) {
 			log.info(" fournisseur : " + fournisseur);
 		}
@@ -47,28 +37,26 @@ public class FournisseurServiceImpl implements IFournisseurService {
 	}
 
 
-	public Fournisseur addFournisseur(FournisseurRequestModel f) {
-       Fournisseur fournisseur1 = modelMapper.map(f, Fournisseur.class);
-		DetailFournisseur df= new DetailFournisseur();
-		df.setDateDebutCollaboration(new Date()); 
+	public Fournisseur addFournisseur(Fournisseur f /*Master*/) {
+		DetailFournisseur df= new DetailFournisseur();//Slave
+		df.setDateDebutCollaboration(new Date()); //util
+		//On affecte le "Slave" au "Master"
 		f.setDetailFournisseur(df);	
-		fournisseurRepository.save(fournisseur1);
-		return fournisseur1;
+		fournisseurRepository.save(f);
+		return f;
 	}
 	
-	private DetailFournisseur  saveDetailFournisseur(FournisseurRequestModel f){
+	private DetailFournisseur  saveDetailFournisseur(Fournisseur f){
 		DetailFournisseur df = f.getDetailFournisseur();
 		detailFournisseurRepository.save(df);
 		return df;
 	}
 
-	public Fournisseur updateFournisseur(FournisseurRequestModel f) {
+	public Fournisseur updateFournisseur(Fournisseur f) {
 		DetailFournisseur df = saveDetailFournisseur(f);
 		f.setDetailFournisseur(df);	
-		
-		Fournisseur fournisseur1 = modelMapper.map(f, Fournisseur.class);
-		fournisseurRepository.save(fournisseur1);
-		return fournisseur1;
+		fournisseurRepository.save(f);
+		return f;
 	}
 
 	@Override
@@ -80,28 +68,18 @@ public class FournisseurServiceImpl implements IFournisseurService {
 	@Override
 	public Fournisseur retrieveFournisseur(Long fournisseurId) {
 
-		return fournisseurRepository.findById(fournisseurId).orElse(null);
+		Fournisseur fournisseur = fournisseurRepository.findById(fournisseurId).orElse(null);
+		return fournisseur;
 	}
-
-	
 
 	@Override
 	public void assignSecteurActiviteToFournisseur(Long idSecteurActivite, Long idFournisseur) {
-    java.util.Optional<Fournisseur> fournisseur = fournisseurRepository.findById(idFournisseur) ;
-    		
-		
-		if (fournisseur.isPresent() ) {
-			
-			java.util.Optional<SecteurActivite> secteurActivite = secteurActiviteRepository.findById(idSecteurActivite);
-			
-			if (secteurActivite.isPresent()) {
-				
-				fournisseur.get().getSecteurActivites().add(secteurActivite.get());
-				fournisseurRepository.save(fournisseur.get());
+		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
+		SecteurActivite secteurActivite = secteurActiviteRepository.findById(idSecteurActivite).orElse(null);
+        fournisseur.getSecteurActivites().add(secteurActivite);
+        fournisseurRepository.save(fournisseur);
 		
 		
-	}
-		}
 	}
 
 	
