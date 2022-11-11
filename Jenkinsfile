@@ -31,6 +31,12 @@ pipeline{
                 }
             }
         }
+       
+       stage('MOCKITO') {
+            steps {
+               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=tn.esprit.rh.achat.ProduitServiceMockTest' //
+            }
+        }
         stage("Maven test") {
             steps {
                 script {
@@ -88,6 +94,9 @@ pipeline{
                 }
             }
         }
+       
+       
+       
        stage('Building our image') { 
             steps { 
                 script { 
