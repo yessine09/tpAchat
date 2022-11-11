@@ -46,6 +46,13 @@ pipeline {
                 }
             }
         }
+        
+          stage('MOCKITO') {
+            steps {
+               sh 'echo skipMOCKITO'  
+                sh 'mvn clean test' 
+            }
+        }
        
         stage("Maven Sonarqube") {
             steps {
@@ -137,12 +144,7 @@ pipeline {
                 } 
            }
            
-             stage('MOCKITO') {
-            steps {
-               sh 'echo skipMOCKITO'  
-                sh 'mvn clean test' 
-            }
-        }
+           
                
     }
     
