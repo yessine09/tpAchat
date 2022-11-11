@@ -57,7 +57,8 @@ pipeline {
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'pom.xml' package -DskipTests=false"
+                    sh 'mvn clean package'
+                    sh 'mvn install package'
                 }
                 echo ":$BUILD_NUMBER"
             }
