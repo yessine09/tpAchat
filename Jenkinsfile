@@ -39,9 +39,11 @@ pipeline {
                 }
             }
         }
-        stage('MOCKITO') {
+        stage("Maven Compile") {
             steps {
-               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=spring/com.esprit.spring.SecteurServiceMockitoTest' //
+                script {
+                    sh "mvn -f'spring/pom.xml' compile -DskipTests=true"
+                }
             }
         }
        
@@ -133,6 +135,12 @@ pipeline {
                     sh 'docker-compose up -d'
                 } 
            }
+           
+             stage('MOCKITO') {
+            steps {
+               sh 'echo skipMOCKITO'  // sh 'mvn clean test -Dtest=spring/com.esprit.spring.SecteurServiceMockitoTest' //
+            }
+        }
                
     }
     
