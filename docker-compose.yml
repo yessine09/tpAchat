@@ -27,7 +27,7 @@ services:
   springboot-be:
     depends_on:
       - mysql-db
-    image: zaineb12/alpine
+    image: zaineb12/alpine:latest
     container_name: springboot-be
     env_file: ./.env
     environment:
