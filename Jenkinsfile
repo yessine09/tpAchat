@@ -1,13 +1,8 @@
 pipeline {
     agent any
-     tools{
-    	maven "M2_HOME"
-    }
-    
+  
      environment {
-         registry = "zaineb12/alpine" 
-        registryCredential = 'dockerhub_id' 
-        dockerImage = '' 
+       
        
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
